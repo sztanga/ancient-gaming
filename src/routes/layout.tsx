@@ -1,17 +1,36 @@
-import { component$, Slot } from "@builder.io/qwik";
-import type { RequestHandler } from "@builder.io/qwik-city";
-
-export const onGet: RequestHandler = async ({ cacheControl }) => {
-  // Control caching for this request for best performance and to reduce hosting costs:
-  // https://qwik.dev/docs/caching/
-  cacheControl({
-    // Always serve a cached response by default, up to a week stale
-    staleWhileRevalidate: 60 * 60 * 24 * 7,
-    // Max once every 5 seconds, revalidate on the server to get a fresh version of this page
-    maxAge: 5,
-  });
-};
+import { component$, Slot } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
 
 export default component$(() => {
-  return <Slot />;
+  return (
+      <>
+        <header class="bg-gray-800 text-white p-4">
+          <div class="container mx-auto flex justify-between items-center">
+            {/* Logo – replace with an image if desired */}
+            <div class="text-2xl font-bold">
+              <Link href="/">AncientStore</Link>
+            </div>
+            <nav class="space-x-4">
+              <Link href="/" class="hover:underline">
+                Products
+              </Link>
+              <Link href="/wishlist" class="hover:underline">
+                Wishlist
+              </Link>
+            </nav>
+          </div>
+        </header>
+
+        <main class="container mx-auto p-4">
+          {/* Routed page content will render here */}
+          <Slot />
+        </main>
+
+        <footer class="bg-gray-800 text-white p-4 mt-8">
+          <div class="container mx-auto text-center">
+            &copy; {new Date().getFullYear()} AncientStore. All rights reserved.
+          </div>
+        </footer>
+      </>
+  );
 });

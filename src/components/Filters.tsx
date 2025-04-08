@@ -2,7 +2,7 @@ import { component$, $ } from '@builder.io/qwik';
 
 export interface FilterState {
     category: string;
-    priceMin: number | '' ;
+    priceMin: number | '';
     priceMax: number | '';
     sortBy: 'price' | 'name' | '';
 }
@@ -15,21 +15,18 @@ export interface FiltersProps {
 export const Filters = component$((props: FiltersProps) => {
     const onCategoryChange = $((event: Event) => {
         const target = event.target as HTMLSelectElement;
-        // eslint-disable-next-line qwik/valid-lexical-scope
         props.onChange$({ ...props.filterState, category: target.value });
     });
 
     const onPriceMinChange = $((event: Event) => {
         const target = event.target as HTMLInputElement;
         const value = target.value === '' ? '' : parseFloat(target.value);
-        // eslint-disable-next-line qwik/valid-lexical-scope
         props.onChange$({ ...props.filterState, priceMin: value });
     });
 
     const onPriceMaxChange = $((event: Event) => {
         const target = event.target as HTMLInputElement;
         const value = target.value === '' ? '' : parseFloat(target.value);
-        // eslint-disable-next-line qwik/valid-lexical-scope
         props.onChange$({ ...props.filterState, priceMax: value });
     });
 
@@ -44,7 +41,7 @@ export const Filters = component$((props: FiltersProps) => {
     return (
         <div class="mb-6 p-4 border rounded">
             <h2 class="text-xl font-bold mb-2">Filters & Sorting</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
                     <label class="block mb-1">Category</label>
                     <select

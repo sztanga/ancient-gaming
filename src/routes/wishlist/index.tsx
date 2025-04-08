@@ -14,7 +14,6 @@ import { toggleWishlistItem } from '~/stores/wishlist';
 export default component$(() => {
     const wishlist = useSignal<string[]>([]);
 
-    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         const storedWishlist = localStorage.getItem('wishlist');
         if (storedWishlist) {

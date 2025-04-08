@@ -18,17 +18,16 @@ export const ProductCard = component$((props: ProductCardProps) => {
   `);
 
     return (
-        <div class="card border rounded shadow p-4">
+        <div class="card border rounded shadow p-4 flex flex-col">
             <img
                 src={props.product.images[0]}
                 alt={props.product.title}
                 class="h-40 w-full object-contain mb-2"
             />
-            <h2 class="font-bold text-lg my-2">{props.product.title}</h2>
-            <h2 class="font-bold text-lg my-2">{props.product.category.name}</h2>
-            <p class="text-green-600 font-semibold">${props.product.price}</p>
+            <h2 class="font-bold text-lg mb-2">{props.product.title}</h2>
+            <p class="text-green-600 font-semibold mb-2">${props.product.price}</p>
             <button
-                class="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+                class="mt-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
                 onClick$={props.onWishlistToggle$}
             >
                 {props.inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}

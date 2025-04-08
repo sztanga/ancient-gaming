@@ -14,11 +14,11 @@ import { ProductCard } from '~/components/ProductCard';
 import { WishlistContext } from '~/contexts/wishlist-context';
 import { toggleWishlistItem } from '~/stores/wishlist';
 import { Filters, FilterState } from '~/components/Filters';
+import {Link} from "@builder.io/qwik-city";
 
 export default component$(() => {
     const wishlist = useSignal<string[]>([]);
     useContextProvider(WishlistContext, wishlist);
-    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         const storedWishlist = localStorage.getItem('wishlist');
         if (storedWishlist) {
@@ -47,9 +47,9 @@ export default component$(() => {
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-2xl font-bold">Product Listing</h1>
                 <div>
-          <span class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm">
-            Wishlist: {wishlist.value.length}
-          </span>
+                <Link href={'/wishlist'} class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm">
+                    Wishlist: {wishlist.value.length}
+                </Link>
                 </div>
             </div>
 
