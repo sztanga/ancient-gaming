@@ -39,13 +39,13 @@ export const Filters = component$((props: FiltersProps) => {
     });
 
     return (
-        <div class="mb-6 p-4 border rounded">
-            <h2 class="text-xl font-bold mb-2">Filters & Sorting</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="mb-8 p-6 bg-gradient-to-r from-indigo-200 to-purple-200 border border-indigo-300 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Filters & Sorting</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 <div>
-                    <label class="block mb-1">Category</label>
+                    <label class="block mb-1 text-gray-700">Category</label>
                     <select
-                        class="w-full border rounded p-2"
+                        class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         value={props.filterState.category}
                         onChange$={onCategoryChange}
                     >
@@ -58,29 +58,29 @@ export const Filters = component$((props: FiltersProps) => {
                     </select>
                 </div>
                 <div>
-                    <label class="block mb-1">Min Price</label>
+                    <label class="block mb-1 text-gray-700">Min Price</label>
                     <input
                         type="number"
-                        class="w-full border rounded p-2"
+                        class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         value={props.filterState.priceMin}
                         onInput$={onPriceMinChange}
                         placeholder="0"
                     />
                 </div>
                 <div>
-                    <label class="block mb-1">Max Price</label>
+                    <label class="block mb-1 text-gray-700">Max Price</label>
                     <input
                         type="number"
-                        class="w-full border rounded p-2"
+                        class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         value={props.filterState.priceMax}
                         onInput$={onPriceMaxChange}
                         placeholder="1000"
                     />
                 </div>
                 <div>
-                    <label class="block mb-1">Sort By</label>
+                    <label class="block mb-1 text-gray-700">Sort By</label>
                     <select
-                        class="w-full border rounded p-2"
+                        class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         value={props.filterState.sortBy}
                         onChange$={onSortByChange}
                     >
