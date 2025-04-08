@@ -1,4 +1,4 @@
-import { component$, $ } from '@builder.io/qwik';
+import { component$, type QRL } from '@builder.io/qwik';
 
 export interface FilterState {
     category: string;
@@ -9,34 +9,13 @@ export interface FilterState {
 
 export interface FiltersProps {
     filterState: FilterState;
-    onChange$: (newFilter: FilterState) => void;
+    onCategoryChange$: QRL<(event: Event) => void>;
+    onPriceMinChange$: QRL<(event: Event) => void>;
+    onPriceMaxChange$: QRL<(event: Event) => void>;
+    onSortByChange$: QRL<(event: Event) => void>;
 }
-
-export const Filters = component$((props: FiltersProps) => {
-    const onCategoryChange = $((event: Event) => {
-        const target = event.target as HTMLSelectElement;
-        props.onChange$({ ...props.filterState, category: target.value });
-    });
-
-    const onPriceMinChange = $((event: Event) => {
-        const target = event.target as HTMLInputElement;
-        const value = target.value === '' ? '' : parseFloat(target.value);
-        props.onChange$({ ...props.filterState, priceMin: value });
-    });
-
-    const onPriceMaxChange = $((event: Event) => {
-        const target = event.target as HTMLInputElement;
-        const value = target.value === '' ? '' : parseFloat(target.value);
-        props.onChange$({ ...props.filterState, priceMax: value });
-    });
-
-    const onSortByChange = $((event: Event) => {
-        const target = event.target as HTMLSelectElement;
-        props.onChange$({
-            ...props.filterState,
-            sortBy: target.value as 'price' | 'name' | '',
-        });
-    });
+component$((props: FiltersProps) => {
+    const { filterState } = props;
 
     return (
         <div class="mb-8 p-6 bg-gradient-to-r from-indigo-200 to-purple-200 border border-indigo-300 rounded-xl shadow-lg">
@@ -46,8 +25,8 @@ export const Filters = component$((props: FiltersProps) => {
                     <label class="block mb-1 text-gray-700">Category</label>
                     <select
                         class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value={props.filterState.category}
-                        onChange$={onCategoryChange}
+                        value={filterState.category}
+                        onChange$={props.onCategoryChange$}
                     >
                         <option value="">All</option>
                         <option value="electronics">Electronics</option>
@@ -57,32 +36,35 @@ export const Filters = component$((props: FiltersProps) => {
                         <option value="miscellaneous">Miscellaneous</option>
                     </select>
                 </div>
+
                 <div>
                     <label class="block mb-1 text-gray-700">Min Price</label>
                     <input
                         type="number"
                         class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value={props.filterState.priceMin}
-                        onInput$={onPriceMinChange}
+                        value={filterState.priceMin}
+                        onChange$={props.onPriceMinChange$}
                         placeholder="0"
                     />
                 </div>
+
                 <div>
                     <label class="block mb-1 text-gray-700">Max Price</label>
                     <input
                         type="number"
                         class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value={props.filterState.priceMax}
-                        onInput$={onPriceMaxChange}
+                        value={filterState.priceMax}
+                        onChange$={props.onPriceMaxChange$}
                         placeholder="1000"
                     />
                 </div>
+
                 <div>
                     <label class="block mb-1 text-gray-700">Sort By</label>
                     <select
                         class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value={props.filterState.sortBy}
-                        onChange$={onSortByChange}
+                        value={filterState.sortBy}
+                        onChange$={props.onSortByChange$}
                     >
                         <option value="">Default</option>
                         <option value="price">Price (Low to High)</option>

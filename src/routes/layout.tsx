@@ -6,6 +6,7 @@ import { WishlistContext } from '~/contexts/wishlist-context';
 export default component$(() => {
     const wishlist = useSignal<string[]>([]);
 
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         try {
             const stored = localStorage.getItem('wishlist');

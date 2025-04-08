@@ -1,65 +1,63 @@
-# Qwik City App ⚡️
+# AncientStore  App
 
-- [Qwik Docs](https://qwik.dev/)
-- [Discord](https://qwik.dev/chat)
-- [Qwik GitHub](https://github.com/QwikDev/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+Hey there! Welcome to the **AncientStore** project, built with **Qwik** and **Qwik City**. This app displays a list of products (fetched via GraphQL) and lets users add or remove items from their wishlist. The wishlist is stored in localStorage, so it stays persistent between page reloads.
+
+## Table of Contents
+- [Tech Stack](#tech-stack)
+- [Core Features](#core-features)
+- [How to Run](#how-to-run)
 
 ---
 
-## Project Structure
+## Tech Stack
+- **Qwik + Qwik City**
+- **Tailwind CSS**
+- **TypeScript**
+- **graphql-request**
+- **localStorage**
 
-This project is using Qwik with [QwikCity](https://qwik.dev/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
+---
 
-Inside your project, you'll see the following directory structure:
+## Core Features
 
-```
-├── public/
-│   └── ...
-└── src/
-    ├── components/
-    │   └── ...
-    └── routes/
-        └── ...
-```
+1. **Product Listing**
+    - Fetches products from `https://api.escuelajs.co/graphql`.
+    - Displays product details in a responsive grid.
 
-- `src/routes`: Provides the directory-based routing, which can include a hierarchy of `layout.tsx` layout files, and an `index.tsx` file as the page. Additionally, `index.ts` files are endpoints. Please see the [routing docs](https://qwik.dev/qwikcity/routing/overview/) for more info.
+2. **Wishlist**
+    - Click "Add to Wishlist" to store an item in localStorage.
+    - Click "Remove from Wishlist" to remove it.
+    - The header shows how many items are in the wishlist.
 
-- `src/components`: Recommended directory for components.
+3. **Filtering & Sorting**
+    - Users can filter by category, min/max price, or sort by price or name.
 
-- `public`: Any static assets, like images, can be placed in the public directory. Please see the [Vite public directory](https://vitejs.dev/guide/assets.html#the-public-directory) for more info.
+4. **Global Layout**
+    - A custom logo and navigation at the top, a footer at the bottom.
 
-## Add Integrations and deployment
+5. **Global Wishlist State**
+    - Maintained in Qwik’s context at the global layout level.
 
-Use the `npm run qwik add` command to add additional integrations. Some examples of integrations includes: Cloudflare, Netlify or Express Server, and the [Static Site Generator (SSG)](https://qwik.dev/qwikcity/guides/static-site-generation/).
+---
 
-```shell
-npm run qwik add # or `yarn qwik add`
-```
+## How to Run
 
-## Development
+1. **Install Dependencies**
+    ```bash
+    npm install
+    ```
+2. **Development Mode**
+    ```bash
+   npm start
+    ```
+   
+3. **Preview Production Build**
+    ```bash
+   npm run preview
+    ```
 
-Development mode uses [Vite's development server](https://vitejs.dev/). The `dev` command will server-side render (SSR) the output during development.
+4. **Build for Production**
+    ```bash
+   npm run build
+    ```
 
-```shell
-npm start # or `yarn start`
-```
-
-> Note: during dev mode, Vite may request a significant number of `.js` files. This does not represent a Qwik production build.
-
-## Preview
-
-The preview command will create a production build of the client modules, a production build of `src/entry.preview.tsx`, and run a local server. The preview server is only for convenience to preview a production build locally and should not be used as a production server.
-
-```shell
-npm run preview # or `yarn preview`
-```
-
-## Production
-
-The production build will generate client and server modules by running both client and server build commands. The build command will use Typescript to run a type check on the source code.
-
-```shell
-npm run build # or `yarn build`
-```
