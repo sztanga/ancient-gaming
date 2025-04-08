@@ -26,7 +26,6 @@ export const ProductCard = component$((props: ProductCardProps) => {
             />
             <h2 class="font-bold text-lg my-2">{props.product.title}</h2>
             <p class="text-green-600 font-semibold">${props.product.price}</p>
-            {/* TODO: Wishlist button */}
             <button
                 class="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
                 onClick$={props.onWishlistToggle$}
