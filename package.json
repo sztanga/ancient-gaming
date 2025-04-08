@@ -39,5 +39,9 @@
     "undici": "*",
     "vite": "5.3.5",
     "vite-tsconfig-paths": "^4.2.1"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.13.6",
+    "graphql": "^16.10.0"
   }
 }
