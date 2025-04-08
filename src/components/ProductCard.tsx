@@ -1,13 +1,21 @@
+/**
+ * ProductCard.tsx
+ * Displays a single product in a "card" style
+ * with a button that toggles wishlist status.
+ */
+
 import { component$, useStylesScoped$ } from '@builder.io/qwik';
 import type { Product } from '~/types';
 
 export interface ProductCardProps {
     product: Product;
     inWishlist: boolean;
+    // This QRL is passed from the parent
     onWishlistToggle$: () => void;
 }
 
 export const ProductCard = component$((props: ProductCardProps) => {
+    // Scoped CSS transitions and hover effects
     useStylesScoped$(`
     .card {
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;

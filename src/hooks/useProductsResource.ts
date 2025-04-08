@@ -1,3 +1,8 @@
+/**
+ * useProductsResource.ts
+ * Custom hook that fetches products from the GraphQL API using useResource$.
+ */
+
 import { useResource$ } from '@builder.io/qwik';
 import client from '~/graphql/client';
 import { GET_PRODUCTS } from '~/graphql/queries';

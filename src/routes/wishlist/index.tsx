@@ -1,3 +1,8 @@
+/**
+ * wishlist/index.tsx
+ * Shows only the products that have been added to the global wishlist.
+ */
+
 import {
     component$,
     $,
@@ -12,12 +17,15 @@ import { toggleWishlistItem } from '~/stores/wishlist';
 import { WishlistContext } from '~/contexts/wishlist-context';
 
 export default component$(() => {
+    // Global wishlist from context
     const wishlist = useContext(WishlistContext);
 
+    // QRL for toggling an item (add/remove)
     const wrappedToggleWishlistItem = $((id: string) => {
         toggleWishlistItem(wishlist, id);
     });
 
+    // Resource that fetches all products
     const productsResource = useProductsResource();
 
     return (
@@ -36,10 +44,12 @@ export default component$(() => {
                     <div class="text-center text-red-500">Error: {error.message}</div>
                 )}
                 onResolved={(products: Product[]) => {
+                    // Filter only wishlisted items
                     const wishlistedProducts = products.filter((product) =>
                         wishlist.value.includes(product.id)
                     );
 
+                    // Show an empty state if no wishlisted items
                     if (wishlistedProducts.length === 0) {
                         return (
                             <div class="flex items-center justify-center h-64">
@@ -60,6 +70,7 @@ export default component$(() => {
                         );
                     }
 
+                    // Render wishlisted products
                     return (
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {wishlistedProducts.map((product) => (

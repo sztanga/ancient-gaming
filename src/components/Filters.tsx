@@ -1,3 +1,10 @@
+/**
+ * Filters.tsx
+ * Renders the UI for filtering and sorting products.
+ * The parent provides QRL handlers for each filter event,
+ * and I attach them to <select> or <input> elements here.
+ */
+
 import { component$, type QRL } from '@builder.io/qwik';
 
 export interface FilterState {
@@ -8,19 +15,24 @@ export interface FilterState {
 }
 
 export interface FiltersProps {
+    // Current filter values
     filterState: FilterState;
+    // Each event is a separate QRL from the parent
     onCategoryChange$: QRL<(event: Event) => void>;
     onPriceMinChange$: QRL<(event: Event) => void>;
     onPriceMaxChange$: QRL<(event: Event) => void>;
     onSortByChange$: QRL<(event: Event) => void>;
 }
-component$((props: FiltersProps) => {
+
+export default component$((props: FiltersProps) => {
+    // Destructure the filter state
     const { filterState } = props;
 
     return (
         <div class="mb-8 p-6 bg-gradient-to-r from-indigo-200 to-purple-200 border border-indigo-300 rounded-xl shadow-lg">
             <h2 class="text-2xl font-bold mb-4 text-gray-800">Filters & Sorting</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                {/* Category Filter */}
                 <div>
                     <label class="block mb-1 text-gray-700">Category</label>
                     <select
@@ -37,6 +49,7 @@ component$((props: FiltersProps) => {
                     </select>
                 </div>
 
+                {/* Min Price */}
                 <div>
                     <label class="block mb-1 text-gray-700">Min Price</label>
                     <input
@@ -48,6 +61,7 @@ component$((props: FiltersProps) => {
                     />
                 </div>
 
+                {/* Max Price */}
                 <div>
                     <label class="block mb-1 text-gray-700">Max Price</label>
                     <input
@@ -59,6 +73,7 @@ component$((props: FiltersProps) => {
                     />
                 </div>
 
+                {/* Sort By */}
                 <div>
                     <label class="block mb-1 text-gray-700">Sort By</label>
                     <select
