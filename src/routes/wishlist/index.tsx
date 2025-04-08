@@ -1,43 +1,27 @@
 import {
     component$,
-    useSignal,
-    useResource$,
-    useVisibleTask$,
     $,
+    useContext,
     Resource,
 } from '@builder.io/qwik';
-import client from '~/graphql/client';
-import { GET_PRODUCTS } from '~/graphql/queries';
+import { Link } from '@builder.io/qwik-city';
+import { useProductsResource } from '~/hooks/useProductsResource';
 import type { Product } from '~/types';
 import { ProductCard } from '~/components/ProductCard';
 import { toggleWishlistItem } from '~/stores/wishlist';
-import { Link } from '@builder.io/qwik-city';
+import { WishlistContext } from '~/contexts/wishlist-context';
 
 export default component$(() => {
-    const wishlist = useSignal<string[]>([]);
+    const wishlist = useContext(WishlistContext);
 
-    // Load persisted wishlist from localStorage when the component becomes visible.
-    useVisibleTask$(() => {
-        const storedWishlist = localStorage.getItem('wishlist');
-        if (storedWishlist) {
-            wishlist.value = JSON.parse(storedWishlist);
-        }
-    });
-
-    // Fetch products via graphql-request.
-    const productsResource = useResource$<Product[]>(async (): Promise<Product[]> => {
-        const data = await client.request<{ products: Product[] }>(GET_PRODUCTS);
-        return data.products;
-    });
-
-    // Wrap the toggle function to make it serializable.
-    const wrappedToggleWishlistItem = $((id: string): void => {
+    const wrappedToggleWishlistItem = $((id: string) => {
         toggleWishlistItem(wishlist, id);
     });
 
+    const productsResource = useProductsResource();
+
     return (
         <div class="container mx-auto p-6">
-            {/* Page Heading */}
             <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
                 Your Wishlist
             </h1>
@@ -45,22 +29,17 @@ export default component$(() => {
                 Items in Wishlist: {wishlist.value.length}
             </p>
 
-            {/* Resource Handling */}
             <Resource
                 value={productsResource}
-                onPending={() => (
-                    <div class="text-center text-gray-600">Loading products...</div>
-                )}
+                onPending={() => <div class="text-center text-gray-600">Loading products...</div>}
                 onRejected={(error: Error) => (
                     <div class="text-center text-red-500">Error: {error.message}</div>
                 )}
                 onResolved={(products: Product[]) => {
-                    // Filter products that are in the wishlist.
-                    const wishlistedProducts = products.filter((product: Product) =>
+                    const wishlistedProducts = products.filter((product) =>
                         wishlist.value.includes(product.id)
                     );
 
-                    // When no items are present, display a friendly empty state.
                     if (wishlistedProducts.length === 0) {
                         return (
                             <div class="flex items-center justify-center h-64">
@@ -70,23 +49,25 @@ export default component$(() => {
                                     </h2>
                                     <p class="text-gray-600">
                                         Your wishlist is currently empty.
-                                        Explore our <Link href="/" class="text-indigo-600">products</Link> and
-                                        add your favorites!
+                                        Explore our{' '}
+                                        <Link href="/" class="text-indigo-600">
+                                            products
+                                        </Link>{' '}
+                                        and add your favorites!
                                     </p>
                                 </div>
                             </div>
                         );
                     }
 
-                    // If items are in the wishlist, render them in a responsive grid.
                     return (
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {wishlistedProducts.map((product: Product) => (
+                            {wishlistedProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     product={product}
-                                    onWishlistToggle$={() => wrappedToggleWishlistItem(product.id)}
                                     inWishlist={wishlist.value.includes(product.id)}
+                                    onWishlistToggle$={() => wrappedToggleWishlistItem(product.id)}
                                 />
                             ))}
                         </div>

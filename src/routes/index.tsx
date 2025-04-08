@@ -1,31 +1,20 @@
 import {
     component$,
     useSignal,
-    useResource$,
-    useVisibleTask$,
-    useContextProvider,
     $,
+    useContext,
     Resource,
 } from '@builder.io/qwik';
-import client from '~/graphql/client';
-import { GET_PRODUCTS } from '~/graphql/queries';
+import { Link } from '@builder.io/qwik-city';
 import type { Product } from '~/types';
 import { ProductCard } from '~/components/ProductCard';
-import { WishlistContext } from '~/contexts/wishlist-context';
 import { toggleWishlistItem } from '~/stores/wishlist';
 import { Filters, FilterState } from '~/components/Filters';
-import {Link} from "@builder.io/qwik-city";
+import { WishlistContext } from '~/contexts/wishlist-context';
+import { useProductsResource } from '~/hooks/useProductsResource';
 
 export default component$(() => {
-    const wishlist = useSignal<string[]>([]);
-    useContextProvider(WishlistContext, wishlist);
-    useVisibleTask$(() => {
-        const storedWishlist = localStorage.getItem('wishlist');
-        if (storedWishlist) {
-            wishlist.value = JSON.parse(storedWishlist);
-        }
-    });
-
+    const wishlist = useContext(WishlistContext);
     const filterState = useSignal<FilterState>({
         category: '',
         priceMin: '',
@@ -33,24 +22,22 @@ export default component$(() => {
         sortBy: '',
     });
 
-    const wrappedToggleWishlistItem = $((id: string): void => {
+    const wrappedToggleWishlistItem = $((id: string) => {
         toggleWishlistItem(wishlist, id);
     });
 
-    const productsResource = useResource$<Product[]>(async (): Promise<Product[]> => {
-        const data = await client.request<{ products: Product[] }>(GET_PRODUCTS);
-        return data.products;
-    });
+    const productsResource = useProductsResource();
 
     return (
         <div class="container mx-auto p-4">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-2xl font-bold">Product Listing</h1>
-                <div>
-                <Link href={'/wishlist'} class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm">
+                <Link
+                    href="/wishlist"
+                    class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm"
+                >
                     Wishlist: {wishlist.value.length}
                 </Link>
-                </div>
             </div>
 
             <Filters
@@ -63,7 +50,9 @@ export default component$(() => {
             <Resource
                 value={productsResource}
                 onPending={() => <div>Loading products...</div>}
-                onRejected={(error: Error) => <div>Error: {error.message}</div>}
+                onRejected={(error: Error) => (
+                    <div class="text-red-500">Error: {error.message}</div>
+                )}
                 onResolved={(products: Product[]) => {
                     let filteredProducts = products.filter((product: Product) => {
                         if (
@@ -97,12 +86,12 @@ export default component$(() => {
 
                     return (
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            {filteredProducts.map((product: Product) => (
+                            {filteredProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     product={product}
-                                    onWishlistToggle$={() => wrappedToggleWishlistItem(product.id)}
                                     inWishlist={wishlist.value.includes(product.id)}
+                                    onWishlistToggle$={() => wrappedToggleWishlistItem(product.id)}
                                 />
                             ))}
                         </div>

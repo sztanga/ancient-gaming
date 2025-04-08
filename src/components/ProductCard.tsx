@@ -3,8 +3,8 @@ import type { Product } from '~/types';
 
 export interface ProductCardProps {
     product: Product;
-    onWishlistToggle$: () => void;
     inWishlist: boolean;
+    onWishlistToggle$: () => void;
 }
 
 export const ProductCard = component$((props: ProductCardProps) => {
