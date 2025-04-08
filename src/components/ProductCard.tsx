@@ -25,6 +25,7 @@ export const ProductCard = component$((props: ProductCardProps) => {
                 class="h-40 w-full object-contain mb-2"
             />
             <h2 class="font-bold text-lg my-2">{props.product.title}</h2>
+            <h2 class="font-bold text-lg my-2">{props.product.category.name}</h2>
             <p class="text-green-600 font-semibold">${props.product.price}</p>
             <button
                 class="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
